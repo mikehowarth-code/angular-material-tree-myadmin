@@ -22,7 +22,7 @@ export class TodoItemFlatNode {
 /**
  * The Json object for to-do list data.
  */
-const TREE_DATA = {
+const TREE_DATA_OLD = {
   Groceries: {
     'Almond Meal flour': null,
     'Organic eggs': null,
@@ -37,6 +37,118 @@ const TREE_DATA = {
     'Cook dinner',
     'Read the Material Design spec',
     'Upgrade Application to Angular'
+  ]
+};
+/**
+ * The Json object for to-do list data.
+ */
+const TREE_DATA = {
+  'Gas': {
+    'o': {
+      'Customer Name 1': {
+        'o': {
+          'Debtor Name 1': {'leaf': true, 'cust': 'customerid1', 'cont': 'contractid1', 'debt': 'debtorid1'},
+          'Debtor Name 2': {'leaf': true, 'cust': 'customerid1', 'cont': 'contractid1', 'debt': 'debtorid1'},
+          'Debtor Name 3': {'leaf': true, 'cust': 'customerid1', 'cont': 'contractid1', 'debt': 'debtorid1'}
+        }
+      }
+    }
+  },
+  'Electricity': {
+    'o': {
+      'Customer Name 1': {
+        'o': {
+          'Debtor Name 1': {'leaf': true, 'cust': 'customerid1', 'cont': 'contractid1', 'debt': 'debtorid1'}
+        }
+      }
+    }
+  },
+  'Water': {
+    'o': {
+      'Customer Name 1': {
+        'o': {
+            'Debtor Name 1': {
+              'o': {
+                'Connection 1': {'leaf': true, 'cust': 'customerid1', 'cont': 'contractid1', 'debt': 'debtorid1'},
+                'Connection 2': {'leaf': true, 'cust': 'customerid1', 'cont': 'contractid1', 'debt': 'debtorid1'},
+                'Connection 3': {'leaf': true, 'cust': 'customerid1', 'cont': 'contractid1', 'debt': 'debtorid1'}
+              }
+            }
+        }
+      }
+    }
+  }
+};
+
+/**
+ * The Json object for to-do list data.
+ */
+const TREE_DATA_SAFE = {
+  'Gas': {
+    't': 'folder',
+    'o': {
+      'Customer Name 1': {
+        't': 'folder',
+        'o': {
+          'Debtor Name 1': {'t': 'leaf', 'cust': 'customerid1', 'cont': 'contractid1', 'debt': 'debtorid1'},
+          'Debtor Name 2': {'t': 'leaf', 'cust': 'customerid1', 'cont': 'contractid1', 'debt': 'debtorid1'},
+          'Debtor Name 3': {'t': 'leaf', 'cust': 'customerid1', 'cont': 'contractid1', 'debt': 'debtorid1'}
+        }
+      }
+    }
+  },
+  'Electricity': {
+    't': 'folder',
+    'o': {
+      'Customer Name 1': {
+        't': 'folder',
+        'o': {
+          'Debtor Name 1': {'t': 'leaf', 'cust': 'customerid1', 'cont': 'contractid1', 'debt': 'debtorid1'}
+        }
+      }
+    }
+  },
+  'Water': {
+    't': 'folder',
+    'o': {
+      'Customer Name 1': {
+        't': 'folder',
+        'o': {
+          'Debtor Name 1': {
+            't': 'folder',
+            'o': {
+              'Connection 1': {'t': 'leaf', 'cust': 'customerid1', 'cont': 'contractid1', 'debt': 'debtorid1'},
+              'Connection 2': {'t': 'leaf', 'cust': 'customerid1', 'cont': 'contractid1', 'debt': 'debtorid1'},
+              'Connection 3': {'t': 'leaf', 'cust': 'customerid1', 'cont': 'contractid1', 'debt': 'debtorid1'}
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+/**
+ * The Json object for to-do list data.
+ */
+const TREE_DATA_WIP = {
+  'Gas': [
+    {
+      'Customer 1': [
+        {
+          'Debtor 1': {},
+          'Debtor 2': {},
+          'Debtor 3': {}
+        }
+      ]
+    },
+    {
+      'Customer 2': [
+      ]
+    }
+
+  ],
+  'Electricity': [
   ]
 };
 
@@ -76,9 +188,11 @@ export class ChecklistDatabase {
 
       if (value != null) {
         if (typeof value === 'object') {
-          node.children = this.buildFileTree(value, level + 1);
-        } else {
-          node.item = value;
+          if (value['leaf'] === undefined || value['leaf'] === false) {
+            node.children = this.buildFileTree(value['o'], level + 1);
+          } else {
+            node.item = key + '/' + value.cust;
+          }
         }
       }
 
