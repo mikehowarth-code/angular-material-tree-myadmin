@@ -9,7 +9,7 @@ import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {DemoMaterialModule} from './app/material-module';
 
-import {TreeChecklistExample} from './app/tree-checklist-example';
+import {TreeCheckboxComponent} from './app/tree-checkbox.component';
 
 @NgModule({
   imports: [
@@ -21,9 +21,9 @@ import {TreeChecklistExample} from './app/tree-checklist-example';
     MatNativeDateModule,
     ReactiveFormsModule,
   ],
-  entryComponents: [TreeChecklistExample],
-  declarations: [TreeChecklistExample],
-  bootstrap: [TreeChecklistExample],
+  entryComponents: [TreeCheckboxComponent],
+  declarations: [TreeCheckboxComponent],
+  bootstrap: [TreeCheckboxComponent],
   providers: []
 })
 export class AppModule {}
