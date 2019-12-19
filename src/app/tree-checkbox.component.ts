@@ -1,6 +1,6 @@
 import {SelectionModel} from '@angular/cdk/collections';
 import {FlatTreeControl} from '@angular/cdk/tree';
-import {Component, Injectable} from '@angular/core';
+import {AfterViewInit, Component, Injectable, OnInit} from '@angular/core';
 import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
 import {BehaviorSubject} from 'rxjs';
 
@@ -119,7 +119,8 @@ export class ChecklistDatabase {
   styleUrls: ['tree-checkbox.component.css'],
   providers: [ChecklistDatabase]
 })
-export class TreeCheckboxComponent {
+
+export class TreeCheckboxComponent implements OnInit {
   /** Map from flat node to nested node. This helps us finding the nested node to be modified */
   flatNodeMap = new Map<TodoItemFlatNode, TodoItemNode>();
 
@@ -149,6 +150,17 @@ export class TreeCheckboxComponent {
     });
   }
 
+  ngOnInit() {
+    for (let i = 0; i < this.treeControl.dataNodes.length; i++) {
+      if (this.treeControl.dataNodes[i].item.startsWith('Connection 2')) {
+       this.todoItemSelectionToggle(this.treeControl.dataNodes[i]);
+        this.treeControl.expand(this.treeControl.dataNodes[i]);
+      }
+      if (this.treeControl.dataNodes[i].item === 'Gas') {
+        this.treeControl.expand(this.treeControl.dataNodes[i]);
+      }
+    }
+  }
   getLevel = (node: TodoItemFlatNode) => node.level;
 
   isExpandable = (node: TodoItemFlatNode) => node.expandable;
@@ -194,6 +206,7 @@ export class TreeCheckboxComponent {
   /** Toggle the to-do item selection. Select/deselect all the descendants node */
   todoItemSelectionToggle(node: TodoItemFlatNode): void {
     this.checklistSelection.toggle(node);
+//    console.log('this.checklistSelection' + this.checklistSelection.isEmpty());
     const descendants = this.treeControl.getDescendants(node);
     this.checklistSelection.isSelected(node)
       ? this.checklistSelection.select(...descendants)
