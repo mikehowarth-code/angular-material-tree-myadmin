@@ -86,18 +86,6 @@ export class ChecklistDatabase {
     }, []);
   }
 
-  /** Add an item to to-do list */
-  insertItem(parent: TodoItemNode, name: string) {
-    if (parent.children) {
-      parent.children.push({item: name} as TodoItemNode);
-      this.dataChange.next(this.data);
-    }
-  }
-
-  updateItem(node: TodoItemNode, name: string) {
-    node.item = name;
-    this.dataChange.next(this.data);
-  }
 }
 
 /**
@@ -118,9 +106,6 @@ export class TreeChecklistExample {
 
   /** A selected parent node to be inserted */
   selectedParent: TodoItemFlatNode | null = null;
-
-  /** The new item's name */
-  newItemName = '';
 
   treeControl: FlatTreeControl<TodoItemFlatNode>;
 
@@ -248,18 +233,6 @@ export class TreeChecklistExample {
     return null;
   }
 
-  /** Select the category so we can insert the new item. */
-  addNewItem(node: TodoItemFlatNode) {
-    const parentNode = this.flatNodeMap.get(node);
-    this._database.insertItem(parentNode!, '');
-    this.treeControl.expand(node);
-  }
-
-  /** Save the node to database */
-  saveNode(node: TodoItemFlatNode, itemValue: string) {
-    const nestedNode = this.flatNodeMap.get(node);
-    this._database.updateItem(nestedNode!, itemValue);
-  }
 }
 
 
