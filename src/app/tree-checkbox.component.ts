@@ -1804,8 +1804,8 @@ export class TreeCheckboxComponent implements OnInit {
 
   logSelectedLeafNodes(): void {
     console.log('todoLeafItemSelectionToggle ' + this.checklistSelection.selected.length);
-    for (let i = 0; this.checklistSelection.selected; i++) {
-      if (this.checklistSelection.selected[i].expandable === false) {
+    for (let i = 0; i < this.checklistSelection.selected.length; i++) {
+      if (this.checklistSelection.selected[i].expandable === undefined ||  this.checklistSelection.selected[i].expandable === false) {
         // console.log('selection ' + i + ' ' + this.checklistSelection.selected[i].item);
         // console.log('    ' + this.checklistSelection.selected[i].cont);
         // console.log('    ' + this.checklistSelection.selected[i].cust);
